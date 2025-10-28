@@ -145,6 +145,12 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply text-foreground;
+  }
+}
+
+@layer utilities {
+  .bg-acker {
+    @apply bg-gradient-to-b from-slate-900 via-slate-950 to-black;
   }
 }

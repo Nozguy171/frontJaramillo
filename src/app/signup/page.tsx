@@ -37,31 +37,6 @@ function SignupForm() {
 
   return (
     <main className="min-h-screen flex flex-col bg-gradient-to-b from-slate-900 via-slate-950 to-black text-white">
-      {/* HEADER */}
-      <header className="sticky top-0 z-40 border-b border-white/10 bg-black/40 backdrop-blur-md">
-        <div className="mx-auto max-w-7xl flex items-center justify-between px-6 py-4">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="h-9 w-9 grid place-items-center rounded-xl bg-gradient-to-tr from-emerald-400 to-blue-500 text-black font-bold text-lg shadow-md">
-              R
-            </div>
-            <span className="text-xl font-semibold tracking-tight text-white">
-              ROVER<span className="text-emerald-400">.AI</span>
-            </span>
-          </Link>
-          <nav className="flex items-center gap-3">
-            <Link href="/login" className="px-5 py-2 text-sm font-semibold text-white/90 hover:text-white transition">
-              Login
-            </Link>
-            <Link
-              href="/signup"
-              className="px-5 py-2 rounded-lg text-sm font-semibold bg-gradient-to-tr from-emerald-500 to-blue-500 text-black shadow-lg hover:brightness-110 active:scale-[.98] transition"
-            >
-              Crear cuenta
-            </Link>
-          </nav>
-        </div>
-      </header>
-
       {/* FORM */}
       <section className="flex-1 grid place-items-center px-6 py-16">
         <form
@@ -115,8 +90,8 @@ function SignupForm() {
       </section>
 
       {/* FOOTER */}
-      <footer className="border-t border-white/10 py-8 text-center text-sm text-slate-400">
-        © {new Date().getFullYear()} ROVER.AI — Todos los derechos reservados
+      <footer className=" border-white/10 py-24 text-center text-sm text-slate-400">
+        © {new Date().getFullYear()} ACKER — Todos los derechos reservados
       </footer>
     </main>
   );

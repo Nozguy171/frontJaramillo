@@ -35,25 +35,6 @@ function HistoryContent() {
 
   return (
     <main className="min-h-screen flex flex-col bg-gradient-to-b from-slate-900 via-slate-950 to-black text-white">
-      {/* HEADER */}
-      <header className="sticky top-0 z-40 border-b border-white/10 bg-black/40 backdrop-blur-md">
-        <div className="mx-auto max-w-7xl flex items-center justify-between px-6 py-4">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="h-9 w-9 grid place-items-center rounded-xl bg-gradient-to-tr from-emerald-400 to-blue-500 text-black font-bold text-lg shadow-md">
-              R
-            </div>
-            <span className="text-xl font-semibold tracking-tight text-white">
-              ROVER<span className="text-emerald-400">.AI</span>
-            </span>
-          </Link>
-          <Link
-            href="/segment"
-            className="px-4 py-2.5 rounded-lg text-sm font-semibold text-black bg-gradient-to-tr from-emerald-400 to-blue-500 shadow-lg hover:brightness-110 active:scale-[.98] transition"
-          >
-            ← Volver a segmentar
-          </Link>
-        </div>
-      </header>
 
       <div className="mx-auto w-full max-w-6xl px-6 py-10 space-y-6">
         <div className="flex items-center justify-between">
@@ -120,7 +101,7 @@ function HistoryContent() {
 
       {/* FOOTER */}
       <footer className="border-t border-white/10 py-8 text-center text-sm text-slate-400 mt-8">
-        © {new Date().getFullYear()} ROVER.AI — Todos los derechos reservados
+        © {new Date().getFullYear()} ACKER — Todos los derechos reservados
       </footer>
     </main>
   );

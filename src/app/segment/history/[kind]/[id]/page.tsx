@@ -70,34 +70,6 @@ function DetailContent() {
 
   return (
     <main className="min-h-screen flex flex-col bg-gradient-to-b from-slate-900 via-slate-950 to-black text-white">
-      {/* HEADER */}
-      <header className="sticky top-0 z-40 border-b border-white/10 bg-black/40 backdrop-blur-md">
-        <div className="mx-auto max-w-7xl flex items-center justify-between px-6 py-4">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="h-9 w-9 grid place-items-center rounded-xl bg-gradient-to-tr from-emerald-400 to-blue-500 text-black font-bold text-lg shadow-md">
-              R
-            </div>
-            <span className="text-xl font-semibold tracking-tight text-white">
-              ROVER<span className="text-emerald-400">.AI</span>
-            </span>
-          </Link>
-          <div className="flex gap-2">
-            <Link
-              href="/segment/history"
-              className="text-sm px-3 py-2 rounded-lg bg-white/10 border border-white/10 hover:bg-white/15"
-            >
-              ← Historial
-            </Link>
-            <Link
-              href="/segment"
-              className="text-sm px-3 py-2 rounded-lg text-black bg-gradient-to-tr from-emerald-400 to-blue-500 shadow-lg hover:brightness-110"
-            >
-              Segmentar otra
-            </Link>
-          </div>
-        </div>
-      </header>
-
       <div className="mx-auto w-full max-w-6xl px-6 py-10 space-y-6">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl md:text-3xl font-semibold">
@@ -206,7 +178,7 @@ function DetailContent() {
 
       {/* FOOTER */}
       <footer className="border-t border-white/10 py-8 text-center text-sm text-slate-400 mt-8">
-        © {new Date().getFullYear()} ROVER.AI — Todos los derechos reservados
+        © {new Date().getFullYear()} ACKER — Todos los derechos reservados
       </footer>
     </main>
   );

@@ -1,4 +1,3 @@
-// src/app/api/proxy/[...path]/route.ts
 import { NextRequest } from "next/server";
 
 export const runtime = "nodejs";
@@ -33,39 +32,53 @@ export async function OPTIONS() {
   });
 }
 
-export async function GET(req: NextRequest, { params }: { params: { path: string[] } }) {
-  const target = `${BACKEND}/${join(params.path)}${req.nextUrl.search}`;
+// --- En Next reciente, params puede venir como Promise. Hacemos await.
+type Ctx = { params: Promise<{ path: string[] }> } | { params: { path: string[] } };
+
+async function resolveParams(ctx: Ctx) {
+  const maybePromise = (ctx as any).params;
+  const { path } = await Promise.resolve(maybePromise);
+  return path as string[];
+}
+
+export async function GET(req: NextRequest, ctx: Ctx) {
+  const path = await resolveParams(ctx);
+  const target = `${BACKEND}/${join(path)}${req.nextUrl.search}`;
   const headers = forwardHeaders(req);
   const resp = await proxyFetch(target, { method: "GET", headers });
   return new Response(resp.body, { status: resp.status, headers: resp.headers });
 }
 
-export async function POST(req: NextRequest, { params }: { params: { path: string[] } }) {
-  const target = `${BACKEND}/${join(params.path)}${req.nextUrl.search}`; // 👈 añade query
+export async function POST(req: NextRequest, ctx: Ctx) {
+  const path = await resolveParams(ctx);
+  const target = `${BACKEND}/${join(path)}${req.nextUrl.search}`;
   const headers = forwardHeaders(req);
   const body = await req.arrayBuffer();
   const resp = await proxyFetch(target, { method: "POST", headers, body });
   return new Response(resp.body, { status: resp.status, headers: resp.headers });
 }
 
-export async function PUT(req: NextRequest, { params }: { params: { path: string[] } }) {
-  const target = `${BACKEND}/${join(params.path)}${req.nextUrl.search}`; // 👈 añade query
+export async function PUT(req: NextRequest, ctx: Ctx) {
+  const path = await resolveParams(ctx);
+  const target = `${BACKEND}/${join(path)}${req.nextUrl.search}`;
   const headers = forwardHeaders(req);
   const body = await req.arrayBuffer();
   const resp = await proxyFetch(target, { method: "PUT", headers, body });
   return new Response(resp.body, { status: resp.status, headers: resp.headers });
 }
 
-export async function PATCH(req: NextRequest, { params }: { params: { path: string[] } }) {
-  const target = `${BACKEND}/${join(params.path)}${req.nextUrl.search}`; // 👈 añade query
+export async function PATCH(req: NextRequest, ctx: Ctx) {
+  const path = await resolveParams(ctx);
+  const target = `${BACKEND}/${join(path)}${req.nextUrl.search}`;
   const headers = forwardHeaders(req);
   const body = await req.arrayBuffer();
   const resp = await proxyFetch(target, { method: "PATCH", headers, body });
   return new Response(resp.body, { status: resp.status, headers: resp.headers });
 }
 
-export async function DELETE(req: NextRequest, { params }: { params: { path: string[] } }) {
-  const target = `${BACKEND}/${join(params.path)}${req.nextUrl.search}`;
+export async function DELETE(req: NextRequest, ctx: Ctx) {
+  const path = await resolveParams(ctx);
+  const target = `${BACKEND}/${join(path)}${req.nextUrl.search}`;
   const headers = forwardHeaders(req);
   const resp = await proxyFetch(target, { method: "DELETE", headers });
   return new Response(resp.body, { status: resp.status, headers: resp.headers });
