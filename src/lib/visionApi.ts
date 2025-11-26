@@ -1,3 +1,4 @@
+// visionApi.ts
 import { api } from "@/lib/api";
 
 export type SegmentObject = {
@@ -9,7 +10,7 @@ export type SegmentObject = {
   obb?: {
     center?: [number, number];
     size?: [number, number];
-    angle?: number; 
+    angle?: number;
     box?: [number, number][];
   };
   obb_det?: {
@@ -43,24 +44,39 @@ export type SegmentResponse = {
 
 const PROXY_BASE = "/api/proxy";
 const BACKEND_ORIGIN =
-  (process.env.NEXT_PUBLIC_BACKEND_ORIGIN?.replace(/\/+$/, "") || "http://localhost:5051") as string;
-
+  (process.env.NEXT_PUBLIC_BACKEND_ORIGIN?.replace(/\/+$/, "") ||
+    "http://localhost:5051") as string;
 export function toAbs(url?: string | null): string | undefined {
   if (!url) return undefined;
+
+  // Si ya está proxificada NO la vuelvas a proxificar
+  if (url.includes("/api/proxy/")) return url;
+
+  // URLs data: o blob: NO pasan por proxy
   if (/^(data:|blob:)/i.test(url)) return url;
 
   try {
     const base = new URL(BACKEND_ORIGIN);
     const full = new URL(url, base);
+
+    // Si la URL pertenece al backend → proxificar una sola vez
     if (full.origin === base.origin) {
       return `${PROXY_BASE}${full.pathname}${full.search}`;
     }
+
     return full.toString();
   } catch {
+    // URLs que empiezan con "/" → proxificar una sola vez
     if (url.startsWith("/")) return `${PROXY_BASE}${url}`;
+
     return url;
   }
 }
+
+
+// ======================================================
+// AUTO-SEGMENTACIÓN IMÁGENES
+// ======================================================
 
 export async function segmentAuto(
   file: File,
@@ -69,6 +85,7 @@ export async function segmentAuto(
   const fd = new FormData();
   fd.append("file", file);
   if (opts?.save) fd.append("save", "1");
+
   const qs = new URLSearchParams();
   if (opts?.conf != null) qs.set("conf", String(opts.conf));
   if (opts?.imgsz != null) qs.set("imgsz", String(opts.imgsz));
@@ -79,8 +96,13 @@ export async function segmentAuto(
     fd,
     { headers: { "Content-Type": "multipart/form-data" } }
   );
+
   return data;
 }
+
+// ======================================================
+// IMAGE ASSETS AUTO
+// ======================================================
 
 export type ImageRow = {
   id: number;
@@ -119,6 +141,10 @@ export async function getImageDetail(id: number): Promise<ImageDetail> {
   return data;
 }
 
+// ======================================================
+// AUTO-SEGMENTACIÓN VIDEO
+// ======================================================
+
 export type VideoAcceptedResponse = {
   accepted: boolean;
   message?: string;
@@ -138,7 +164,8 @@ export async function segmentAutoVideo(
 ) {
   const fd = new FormData();
   fd.append("file", file);
-if (opts?.save) fd.append("save", "1");
+  if (opts?.save) fd.append("save", "1");
+
   const qs = new URLSearchParams();
   if (opts?.conf != null) qs.set("conf", String(opts.conf));
   if (opts?.imgsz != null) qs.set("imgsz", String(opts.imgsz));
@@ -150,6 +177,7 @@ if (opts?.save) fd.append("save", "1");
     fd,
     { headers: { "Content-Type": "multipart/form-data" } }
   );
+
   if (!data?.video?.id) throw new Error("No se recibió id de video.");
   return data;
 }
@@ -191,51 +219,78 @@ export async function pollVideoUntilReady(
     const { data } = await api.get<VideoDetail>(`/api/vision/videos/${id}`, {
       headers: { "Cache-Control": "no-store" },
     });
+
     const last = data?.results?.[0];
     const url = last?.overlay_url;
     if (url) {
       return { overlay_url: url, objects_totals: last?.objects_totals || undefined };
     }
+
     if (Date.now() - t0 > timeoutMs) {
       throw new Error("Se agotó el tiempo esperando el overlay del video.");
     }
+
     await new Promise((r) => setTimeout(r, intervalMs));
   }
 }
 
-export type HistoryRow =
-  | (ImageRow & { kind: "image" })
-  | ({
-      id: number;
-      original_url: string;
-      overlay_url?: string;
-      width: number;
-      height: number;
-      fps?: number;
-      duration_sec?: number;
-      created_at: string;
-      last_result_id?: number;
-      kind: "video";
-      objects_totals?: Record<string, number>;
-    });
+// ======================================================
+// MANUAL TAGGING
+// ======================================================
 
-export async function listVideos(): Promise<HistoryRow[]> {
-  const { data } = await api.get<any[]>("/api/vision/videos", {
+export type ManualDetail = {
+  id: number;
+  url: string;
+  width: number;
+  height: number;
+  results: {
+    id: number;
+    annotations: any[];
+    created_at: string;
+  }[];
+};
+
+export async function getManualDetail(id: number): Promise<ManualDetail> {
+  const { data } = await api.get(`/api/manual/images/${id}`, {
     headers: { "Cache-Control": "no-store" },
   });
-  return (data || []).map((r) => ({ kind: "video" as const, ...r }));
+  return data;
 }
+
+// ======================================================
+// HISTORIAL UNIFICADO (IMAGEN + VIDEO + MANUAL)
+// ======================================================
+
+export type HistoryRow = {
+  id: number;
+  kind: "image" | "video" | "manual";
+  original_url: string;
+  overlay_url?: string;
+  width: number;
+  height: number;
+  created_at: string;
+  fps?: number;
+  duration_sec?: number;
+  objects_totals?: Record<string, number>;
+};
 
 export async function listUnifiedHistory(): Promise<HistoryRow[]> {
-  const [imgs, vids] = await Promise.all([
-    listImages().then((arr) => (arr || []).map((r) => ({ kind: "image" as const, ...r }))),
-    listVideos(),
-  ]);
-  return [...imgs, ...vids].sort(
-    (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-  );
+  const { data } = await api.get("/api/history", {
+    headers: { "Cache-Control": "no-store" },
+  });
+
+  return data.map((r: any) => ({
+    ...r,
+    original_url: toAbs(r.original_url),
+    overlay_url: r.overlay_url ? toAbs(r.overlay_url) : undefined,
+  }));
 }
 
-export async function getUnifiedDetail(kind: "image" | "video", id: number) {
-  return kind === "image" ? getImageDetail(id) : getVideoDetail(id);
+export async function getUnifiedDetail(
+  kind: "image" | "video" | "manual",
+  id: number
+) {
+  if (kind === "image") return getImageDetail(id);
+  if (kind === "video") return getVideoDetail(id);
+  return getManualDetail(id);
 }

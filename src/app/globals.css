@@ -45,72 +45,106 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+
+  /* 🎨 Fondo gris plomo estilo WhatsApp */
+  --background: #1F2C33;
+  --foreground: #FFFFFF;
+
+  /* Tarjetas estilo WhatsApp Desktop */
+  --card: #232D36;
+  --card-foreground: #FFFFFF;
+
+  /* Popovers */
+  --popover: #232D36;
+  --popover-foreground: #FFFFFF;
+
+  /* Verde WhatsApp para títulos y elementos primarios */
+  --primary: #25D366;
+  --primary-foreground: #0A0A0A;
+
+  /* Secundarios */
+  --secondary: #128C7E;
+  --secondary-foreground: #FFFFFF;
+
+  /* Muted */
+  --muted: #2A3B42;
+  --muted-foreground: #E9EDEF;
+
+  /* Accent */
+  --accent: #25D366;
+  --accent-foreground: #FFFFFF;
+
+  /* Destructive (rojito estándar) */
+  --destructive: #EF4444;
+
+  /* Inputs y borders estilo WhatsApp */
+  --border: #2A3B42;
+  --input: #2A3B42;
+  --ring: #128C7E;
+
+  /* Charts? los dejamos neutros */
+  --chart-1: #25D366;
+  --chart-2: #128C7E;
+  --chart-3: #075E54;
+  --chart-4: #34B7F1;
+  --chart-5: #ECE5DD;
+
+  /* Sidebar estilo WhatsApp */
+  --sidebar: #232D36;
+  --sidebar-foreground: #FFFFFF;
+  --sidebar-primary: #25D366;
+  --sidebar-primary-foreground: #0A0A0A;
+  --sidebar-accent: #128C7E;
+  --sidebar-accent-foreground: #FFFFFF;
+  --sidebar-border: #2A3B42;
+  --sidebar-ring: #128C7E;
 }
 
+/* 🌙 Modo oscuro (similar pero un poco más oscuro aún) */
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --background: #111B21;
+  --foreground: #FFFFFF;
+
+  --card: #1A242A;
+  --card-foreground: #FFFFFF;
+
+  --popover: #1A242A;
+  --popover-foreground: #FFFFFF;
+
+  --primary: #25D366;
+  --primary-foreground: #0A0A0A;
+
+  --secondary: #128C7E;
+  --secondary-foreground: #FFFFFF;
+
+  --muted: #2A3B42;
+  --muted-foreground: #D1D7DB;
+
+  --accent: #25D366;
+  --accent-foreground: #FFFFFF;
+
+  --destructive: #EF4444;
+
+  --border: #2A3B42;
+  --input: #2A3B42;
+  --ring: #128C7E;
+
+  --chart-1: #25D366;
+  --chart-2: #128C7E;
+  --chart-3: #075E54;
+  --chart-4: #34B7F1;
+  --chart-5: #ECE5DD;
+
+  --sidebar: #1A242A;
+  --sidebar-foreground: #FFFFFF;
+  --sidebar-primary: #25D366;
+  --sidebar-primary-foreground: #0A0A0A;
+  --sidebar-accent: #128C7E;
+  --sidebar-accent-foreground: #FFFFFF;
+  --sidebar-border: #2A3B42;
+  --sidebar-ring: #128C7E;
 }
+
 /* Glass cards */
 .card {
   @apply rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md shadow-lg;
@@ -126,31 +160,29 @@
   @apply h-1.5 w-full rounded-full bg-white/10 overflow-hidden;
 }
 .progress > span {
-  @apply block h-full rounded-full bg-gradient-to-r from-emerald-400 to-blue-500;
+  @apply block h-full rounded-full bg-gradient-to-r from-green-400 to-emerald-500;
 }
 
-/* Optional: dark inputs everywhere inside .card */
 .card input[type="text"],
 .card input[type="email"],
 .card input[type="password"],
 .card input[type="number"],
 .card textarea,
 .card select {
-  @apply w-full rounded-xl border border-white/10 bg-black/30 px-3 py-2 text-white placeholder:text-slate-400 outline-none focus:ring-2 focus:ring-emerald-400;
+  @apply w-full rounded-xl border border-white/10 bg-black/30 px-3 py-2 text-white placeholder:text-slate-400 outline-none focus:ring-2 focus:ring-green-400;
 }
-
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply text-foreground;
+    @apply text-foreground bg-[var(--background)];
   }
 }
 
 @layer utilities {
   .bg-acker {
-    @apply bg-gradient-to-b from-slate-900 via-slate-950 to-black;
+    @apply bg-gradient-to-b from-[#1F2C33] via-[#1A242A] to-[#111B21];
   }
 }

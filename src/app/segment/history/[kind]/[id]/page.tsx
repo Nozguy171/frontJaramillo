@@ -4,9 +4,59 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import RequireAuth from "@/components/RequireAuth";
-import { getUnifiedDetail, toAbs, type SegmentObject } from "@/lib/visionApi";
+import {
+  getUnifiedDetail,
+  toAbs,
+  type SegmentObject,
+} from "@/lib/visionApi";
 import ObjectExtras from "@/components/ObjectExtras";
 
+type Point = [number, number];
+
+// =======================================================
+// PREVIEW GENERATOR
+// =======================================================
+async function getAnnPreview(ann: any, imgUrl: string): Promise<string | null> {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.src = imgUrl;
+
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d")!;
+
+      // bounding box universal
+      let x1, y1, x2, y2;
+      if (ann.type === "bbox") {
+        [x1, y1, x2, y2] = ann.bbox;
+      } else {
+        const xs = ann.points.map((p: any) => p[0]);
+        const ys = ann.points.map((p: any) => p[1]);
+        x1 = Math.min(...xs);
+        y1 = Math.min(...ys);
+        x2 = Math.max(...xs);
+        y2 = Math.max(...ys);
+      }
+
+      const w = Math.max(1, x2 - x1);
+      const h = Math.max(1, y2 - y1);
+
+      canvas.width = w;
+      canvas.height = h;
+
+      ctx.drawImage(img, x1, y1, w, h, 0, 0, w, h);
+
+      resolve(canvas.toDataURL("image/jpeg", 0.8));
+    };
+
+    img.onerror = () => resolve(null);
+  });
+}
+
+// =======================================================
+// PAGE WRAPPER
+// =======================================================
 export default function SegmentHistoryDetailPage() {
   return (
     <RequireAuth>
@@ -15,27 +65,56 @@ export default function SegmentHistoryDetailPage() {
   );
 }
 
+// =======================================================
+// CONTENT
+// =======================================================
 function DetailContent() {
   const params = useParams<{ kind: string; id: string }>();
-  const kind = (params?.kind as "image" | "video") || "image";
+  const kind = (params?.kind as "image" | "video" | "manual") || "image";
   const id = Number(params?.id);
 
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState<string | null>(null);
   const [data, setData] = useState<any | null>(null);
 
+  // Para resaltar imagen en manual
+  const [focusBox, setFocusBox] = useState<{
+    x1: number;
+    y1: number;
+    x2: number;
+    y2: number;
+  } | null>(null);
+
+  // highlight animation
+  useEffect(() => {
+    if (!focusBox) return;
+    const el = document.getElementById("manual-result-img");
+    if (!el) return;
+
+    el.classList.add("ring-4", "ring-primary", "ring-offset-2");
+
+    const timer = setTimeout(() => {
+      el.classList.remove("ring-4", "ring-primary", "ring-offset-2");
+    }, 350);
+
+    return () => clearTimeout(timer);
+  }, [focusBox]);
+
+  // =======================================================
+  // LOAD DETAIL
+  // =======================================================
   useEffect(() => {
     if (!id) return;
+
     let stop = false;
 
     async function loadOnce() {
       try {
         setLoading(true);
-        setErr(null);
         const res = await getUnifiedDetail(kind, id);
         if (!stop) setData(res);
       } catch (e: any) {
-        if (!stop) setErr(e?.response?.data?.error || e?.message || "No se pudo cargar el detalle.");
+        if (!stop) setErr(e?.message || "No se pudo cargar el detalle.");
       } finally {
         if (!stop) setLoading(false);
       }
@@ -43,17 +122,17 @@ function DetailContent() {
 
     loadOnce();
 
+    // Polling SOLO para video
     let timer: any;
     if (kind === "video") {
       timer = setInterval(async () => {
-        try {
-          const res = await getUnifiedDetail(kind, id);
-          const last = res?.results?.[0];
-          if (last?.overlay_url) {
-            setData(res);
-            clearInterval(timer);
-          }
-        } catch {}
+        const res = await getUnifiedDetail("video", id);
+        const last = res?.results?.[0];
+
+        if (last && typeof last === "object" && "overlay_url" in last) {
+          setData(res);
+          clearInterval(timer);
+        }
       }, 2000);
     }
 
@@ -64,122 +143,226 @@ function DetailContent() {
   }, [id, kind]);
 
   const last = data?.results?.[0];
-  const overlayUrlAbs = useMemo(() => toAbs(last?.overlay_url), [last]);
-  const objectsTotals: Record<string, number> | null =
-    kind === "video" ? (last?.objects_totals || last?.meta?.totals || null) : null;
 
+  // overlay fix
+  const hasOverlay =
+    last &&
+    typeof last === "object" &&
+    "overlay_url" in last &&
+    typeof (last as any).overlay_url === "string";
+
+  const overlayUrlAbs =
+    kind === "manual"
+      ? undefined
+      : hasOverlay
+      ? toAbs((last as any).overlay_url)
+      : undefined;
+
+  // =======================================================
+  // MANUAL PREVIEWS
+  // =======================================================
+  const [previews, setPreviews] = useState<(string | null)[]>([]);
+
+  useEffect(() => {
+    if (kind !== "manual") return;
+    if (!last?.annotations) return;
+    if (!Array.isArray(last.annotations)) return;
+    if (!data?.url) return;
+
+    let active = true;
+
+    Promise.all(
+      last.annotations.map((ann: any) =>
+        getAnnPreview(ann, toAbs(data.url)!)
+      )
+    ).then((imgs) => {
+      if (active) setPreviews(imgs);
+    });
+
+    return () => {
+      active = false;
+    };
+  }, [kind, last, data?.url]);
+
+  // =======================================================
+  // RENDER UI
+  // =======================================================
   return (
-    <main className="min-h-screen flex flex-col bg-gradient-to-b from-slate-900 via-slate-950 to-black text-white">
+    <main className="min-h-screen flex flex-col bg-background text-foreground">
       <div className="mx-auto w-full max-w-6xl px-6 py-10 space-y-6">
-        <div className="flex items-center justify-between">
-          <h1 className="text-2xl md:text-3xl font-semibold">
-            Detalle {kind} #{id}
-          </h1>
-        </div>
+        <h1 className="text-2xl md:text-3xl font-semibold text-primary">
+          Detalle {kind} #{id}
+        </h1>
 
-        {loading && <div className="text-sm text-slate-300">Cargando…</div>}
-        {err && <div className="text-sm text-red-400">{err}</div>}
+        {loading && <div>Cargando…</div>}
+        {err && <div className="text-destructive">{err}</div>}
 
         {data && (
           <>
-            {/* Antes / Después */}
+            {/* =======================================================
+                BEFORE / AFTER
+             ======================================================= */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* ORIGINAL */}
               <div className="card p-3">
-                <div className="font-semibold mb-2">Antes (original)</div>
-                {kind === "image" ? (
-                  <img src={toAbs(data.original_url)} alt="original" className="w-full rounded-lg border border-white/10" />
+                <div className="font-semibold mb-2">Antes</div>
+
+                {kind === "video" ? (
+                  <video
+                    src={toAbs(data.original_url)}
+                    controls
+                    className="w-full rounded-lg border"
+                  />
                 ) : (
-                  <video src={toAbs(data.original_url)} controls className="w-full rounded-lg border border-white/10" />
+                  <img
+                    src={toAbs(
+                      kind === "manual" ? data.url : data.original_url
+                    )}
+                    className="w-full rounded-lg border"
+                  />
                 )}
               </div>
 
+              {/* RESULT */}
               <div className="card p-3">
-                <div className="font-semibold mb-2">Después (último resultado)</div>
-                {last?.overlay_url ? (
+                <div className="font-semibold mb-2">
+                  {kind === "manual" ? "Últimas anotaciones" : "Resultado"}
+                </div>
+
+                {kind === "manual" ? (
+                  <img
+                    id="manual-result-img"
+                    src={toAbs(`/api/manual/images/${id}/overlay`)}
+                    className="w-full rounded-lg border transition-all duration-300"
+                  />
+                ) : overlayUrlAbs ? (
                   kind === "image" ? (
-                    <img src={toAbs(last.overlay_url)} alt="overlay" className="w-full rounded-lg border border-white/10" />
+                    <img
+                      src={overlayUrlAbs}
+                      className="w-full rounded-lg border"
+                    />
                   ) : (
-                    <video src={overlayUrlAbs!} controls className="w-full rounded-lg border border-white/10" />
+                    <video
+                      src={overlayUrlAbs}
+                      controls
+                      className="w-full rounded-lg border"
+                    />
                   )
                 ) : (
-                  <div className="text-sm text-slate-300/80">— Sin resultados aún (si es video, espera unos segundos)</div>
+                  <div>Sin resultados…</div>
                 )}
               </div>
             </div>
 
-            {/* Imagen: objetos */}
-            {kind === "image" && (
-              <section className="card p-4">
-                <div className="flex items-center justify-between mb-3">
-                  <h2 className="font-semibold">Objetos detectados</h2>
-                  <span className="text-xs text-slate-400">
-                    {Array.isArray(last?.objects) ? last.objects.length : 0} elementos
+            {/* =======================================================
+                MANUAL MODE — OBJECT LIST
+             ======================================================= */}
+            {kind === "manual" && last && (
+              <section className="card p-4 mt-6">
+                <div className="flex justify-between">
+                  <h2 className="font-semibold">Objetos anotados</h2>
+                  <span className="text-xs text-muted-foreground">
+                    {last.annotations.length} objetos
                   </span>
                 </div>
 
-                {Array.isArray(last?.objects) && last.objects.length ? (
-                  <ul className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                    {(last.objects as SegmentObject[]).map((o: SegmentObject, i: number) => (
-                      <li key={i} className="rounded-lg border border-white/10 p-3 bg-white/5">
-                        <div className="flex items-center justify-between mb-1">
-                          <div className="font-medium">{o.class}</div>
-                          <span className="badge bg-emerald-400/20 text-emerald-300 border-emerald-400/30">
-                            conf {(o.score * 100).toFixed(0)}%
-                          </span>
-                        </div>
-                        <div className="progress mb-2">
-                          <span style={{ width: `${Math.max(0, Math.min(100, o.score * 100))}%` }} />
-                        </div>
-                        {o.bbox && (
-                          <div className="text-xs text-slate-300/80">
-                            bbox: [{o.bbox.map((v) => v.toFixed(1)).join(", ")}]
-                          </div>
-                        )}
-                        <ObjectExtras o={o} />
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <div className="h-24 grid place-items-center rounded-lg border border-dashed border-white/20 text-slate-300/80 text-sm">
-                    No hay detecciones en este resultado.
-                  </div>
-                )}
-              </section>
-            )}
+                <ul className="space-y-3 mt-4">
+                  {last.annotations.map((ann: any, i: number) => (
+                    <li
+                      key={i}
+                      className="p-3 rounded-lg border bg-card space-y-2 cursor-pointer hover:bg-primary/10 transition"
+                      onClick={() => {
+                        // bounding box universal
+                        let x1, y1, x2, y2;
+                        if (ann.type === "bbox") {
+                          [x1, y1, x2, y2] = ann.bbox;
+                        } else {
+                          const xs = ann.points.map((p: any) => p[0]);
+                          const ys = ann.points.map((p: any) => p[1]);
+                          x1 = Math.min(...xs);
+                          y1 = Math.min(...ys);
+                          x2 = Math.max(...xs);
+                          y2 = Math.max(...ys);
+                        }
 
-            {/* Video: resumen */}
-            {kind === "video" && objectsTotals && (
-              <section className="card p-4">
-                <div className="flex items-center justify-between mb-3">
-                  <h2 className="font-semibold">Resumen (video)</h2>
-                  <span className="text-xs text-slate-400">
-                    {Object.values(objectsTotals).reduce((a, b) => a + b, 0)} total
-                  </span>
-                </div>
-                <ul className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                  {Object.entries(objectsTotals).map(([cls, count]) => (
-                    <li key={cls} className="rounded-lg border border-white/10 p-3 bg-white/5">
-                      <div className="flex items-center justify-between mb-1">
-                        <div className="font-medium">{cls}</div>
-                        <span className="badge bg-blue-400/20 text-blue-200 border-blue-400/30">{count}</span>
+                        setFocusBox({ x1, y1, x2, y2 });
+                      }}
+                    >
+                      {/* HEADER */}
+                      <div className="flex justify-between items-center">
+                        <div className="font-medium">
+                          #{i} — {ann.class}
+                        </div>
+                        <span className="badge bg-primary/20 text-primary">
+                          {ann.type}
+                        </span>
                       </div>
-                      <div className="progress mb-2">
-                        <span style={{ width: `${Math.max(0, Math.min(100, (count as number) * 10))}%` }} />
+
+                      {/* PREVIEW */}
+                      {previews[i] && (
+                        <div className="relative w-28 h-28 overflow-hidden rounded border bg-black/40">
+                          <img
+                            src={previews[i]!}
+                            className="absolute inset-0 w-full h-full object-contain p-1"
+                          />
+                          <div className="absolute inset-0 border-2 border-primary/40 rounded pointer-events-none" />
+                        </div>
+                      )}
+
+                      {/* INFO */}
+                      <div className="text-xs text-muted-foreground">
+                        {ann.type === "bbox" &&
+                          `bbox: [${ann.bbox.join(", ")}]`}
+                        {ann.type === "obb" &&
+                          `OBB — ángulo ${ann.angle.toFixed(1)}°`}
+                        {ann.type === "seg" &&
+                          `polígono con ${ann.points.length} puntos`}
+                        {ann.type === "pose" &&
+                          `${ann.points.length} keypoints`}
                       </div>
-                      <div className="text-xs text-slate-300/80">apariciones acumuladas en el video</div>
                     </li>
                   ))}
                 </ul>
               </section>
             )}
+
+            {/* =======================================================
+                AI IMAGE MODE
+             ======================================================= */}
+            {kind === "image" && (
+              <section className="card p-4">
+                <h2 className="font-semibold mb-3">Objetos detectados</h2>
+
+                {Array.isArray(last?.objects) && last.objects.length > 0 ? (
+                  <ul className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                    {last.objects.map((o: SegmentObject, i: number) => (
+                      <li
+                        key={i}
+                        className="rounded-lg border p-3 bg-card"
+                      >
+                        <div className="flex justify-between">
+                          <div className="font-medium">{o.class}</div>
+                          <span className="badge bg-primary/20 text-primary">
+                            {Math.round(o.score * 100)}%
+                          </span>
+                        </div>
+
+                        <div className="text-xs text-muted-foreground mt-1">
+                          bbox: [{o.bbox.join(", ")}]
+                        </div>
+
+                        <ObjectExtras o={o} />
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <div>No hay objetos</div>
+                )}
+              </section>
+            )}
           </>
         )}
       </div>
-
-      {/* FOOTER */}
-      <footer className="border-t border-white/10 py-8 text-center text-sm text-slate-400 mt-8">
-        © {new Date().getFullYear()} ACKER — Todos los derechos reservados
-      </footer>
     </main>
   );
 }

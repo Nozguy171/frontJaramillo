@@ -13,15 +13,15 @@ function IntroAcker() {
   return (
     <section id="intro" className="mx-auto max-w-6xl px-6 pt-12 pb-6">
       <header className="text-center">
-        <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
-          <span className="bg-gradient-to-r from-emerald-400 to-blue-400 bg-clip-text text-transparent">
-            🌾 Presentamos a ACKER
-          </span>
+        <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-primary">
+          🌾 Presentamos a ACKER
         </h1>
-        <p className="mt-3 text-lg md:text-xl text-slate-200">Liderando el camino en robótica agrícola inteligente</p>
+        <p className="mt-3 text-lg md:text-xl text-muted-foreground">
+          Liderando el camino en robótica agrícola inteligente
+        </p>
       </header>
 
-      <p className="mt-6 text-slate-300 leading-relaxed max-w-3xl mx-auto">
+      <p className="mt-6 text-muted-foreground leading-relaxed max-w-3xl mx-auto">
         ACKER es una plataforma robótica multifuncional creada para transformar la agricultura de precisión. Combina visión por
         computadora, inteligencia artificial y navegación autónoma para realizar tareas de monitoreo, mapeo y asistencia agrícola
         de forma sostenible, eficiente y segura.
@@ -55,12 +55,10 @@ function CropIntelligence() {
   return (
     <section id="inteligencia" className="mx-auto max-w-7xl px-6 py-14">
       <header className="max-w-3xl">
-        <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight">
-          <span className="bg-gradient-to-r from-emerald-400 to-blue-400 bg-clip-text text-transparent">
-            🌱 Inteligencia de Cultivo
-          </span>
+        <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-primary">
+          🌱 Inteligencia de Cultivo
         </h2>
-        <p className="mt-3 text-slate-300">
+        <p className="mt-3 text-muted-foreground">
           ACKER optimiza rendimiento, reduce pérdidas y mejora la toma de decisiones. La visión multi-YOLO junto a GPS, IMU y sensores de campo
           permite detectar anomalías y generar información precisa para el productor.
         </p>
@@ -68,13 +66,16 @@ function CropIntelligence() {
 
       <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
         {items.map((x) => (
-          <article key={x.title} className="rounded-2xl border border-white/10 bg-white/5 overflow-hidden hover:bg-white/[0.07] transition">
-            <div className="aspect-[4/3] border-b border-white/10">
+          <article
+            key={x.title}
+            className="rounded-2xl border border-border bg-card overflow-hidden hover:bg-secondary/20 transition"
+          >
+            <div className="aspect-[4/3] border-b border-border">
               <img src={x.img} alt={x.title} className="w-full h-full object-cover" />
             </div>
             <div className="p-5">
-              <h3 className="font-semibold text-lg">{x.title}</h3>
-              <p className="text-slate-300 text-sm mt-2">{x.body}</p>
+              <h3 className="font-semibold text-lg text-foreground">{x.title}</h3>
+              <p className="text-muted-foreground text-sm mt-2">{x.body}</p>
             </div>
           </article>
         ))}
@@ -104,12 +105,12 @@ function ValuePillars() {
   ];
   return (
     <section id="valores" className="mx-auto max-w-7xl px-6 py-14">
-      <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+      <div className="rounded-2xl border border-border bg-card p-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {vals.map((v) => (
-            <div key={v.t} className="rounded-xl border border-white/10 bg-white/[0.03] p-5">
-              <h3 className="text-xl font-semibold">{v.t}</h3>
-              <p className="mt-2 text-slate-300">{v.d}</p>
+            <div key={v.t} className="rounded-xl border border-border bg-card p-5">
+              <h3 className="text-xl font-semibold text-primary">{v.t}</h3>
+              <p className="mt-2 text-muted-foreground">{v.d}</p>
             </div>
           ))}
         </div>
@@ -122,23 +123,23 @@ function Adaptability() {
   return (
     <section id="adaptabilidad" className="mx-auto max-w-7xl px-6 pt-8 pb-16">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-        <div className="lg:col-span-7 rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+        <div className="lg:col-span-7 rounded-2xl overflow-hidden border border-border shadow-2xl">
           <img src="/home/adapt.jpg" alt="ACKER en invernadero y campo" className="w-full h-auto object-cover" />
         </div>
         <aside className="lg:col-span-5">
-          <div className="bg-white text-slate-800 rounded-2xl border border-black/5 shadow-[0_20px_60px_rgba(0,0,0,.35)] p-6 md:p-7">
-            <h3 className="text-2xl font-semibold">⚙️ Máxima Adaptabilidad en el Campo</h3>
-            <p className="mt-3 text-slate-600">
+          <div className="bg-card text-foreground rounded-2xl border border-border shadow-[0_20px_60px_rgba(0,0,0,.35)] p-6 md:p-7">
+            <h3 className="text-2xl font-semibold text-primary">⚙️ Máxima Adaptabilidad en el Campo</h3>
+            <p className="mt-3 text-muted-foreground">
               ACKER puede personalizarse para distintos cultivos y entornos. Cada robot trabaja de forma independiente o cooperativa en un enjambre,
               coordinado por un Agente Central que gestiona rutas, misiones y métricas.
             </p>
-            <div className="mt-4 text-sm text-slate-700">
-              <div className="font-semibold">Invernaderos y Túneles Agrícolas</div>
+            <div className="mt-4 text-sm text-muted-foreground">
+              <div className="font-semibold text-primary">Invernaderos y Túneles Agrícolas</div>
               <p className="mt-1">
                 Se desplaza automáticamente de hilera en hilera mientras recopila datos microclimáticos y visuales del cultivo.
               </p>
               <div className="mt-3">
-                <Link href="/platform#greenhouses" className="underline underline-offset-2 decoration-slate-400 hover:decoration-slate-700">
+                <Link href="/platform#greenhouses" className="underline underline-offset-2 text-primary hover:text-primary/80">
                   Más →
                 </Link>
               </div>
@@ -154,21 +155,21 @@ function ChallengesAndCollab() {
   return (
     <section id="historia" className="mx-auto max-w-6xl px-6 py-14">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <article className="rounded-2xl border border-white/10 bg-white/5 p-6">
-          <h3 className="text-2xl font-semibold">🧩 Solucionando Desafíos Críticos</h3>
-          <p className="mt-3 text-slate-300">
+        <article className="rounded-2xl border border-border bg-card p-6">
+          <h3 className="text-2xl font-semibold text-primary">🧩 Solucionando Desafíos Críticos</h3>
+          <p className="mt-3 text-muted-foreground">
             ACKER nació como un proyecto de investigación aplicada para automatizar tareas críticas del campo: navegación, monitoreo y toma de datos.
             Responde a retos actuales: escasez de mano de obra, sostenibilidad, productividad y seguridad alimentaria.
           </p>
-          <p className="mt-3 text-slate-300">
+          <p className="mt-3 text-muted-foreground">
             Hoy, ACKER evoluciona como una plataforma integral que combina robustez mecánica, autonomía inteligente y visión avanzada, contribuyendo a un modelo agrícola más
             eficiente y resiliente.
           </p>
         </article>
 
-        <article className="rounded-2xl border border-white/10 bg-white/5 p-6">
-          <h3 className="text-2xl font-semibold">🤝 Todo se trata de colaboración</h3>
-          <p className="mt-3 text-slate-300">
+        <article className="rounded-2xl border border-border bg-card p-6">
+          <h3 className="text-2xl font-semibold text-primary">🤝 Todo se trata de colaboración</h3>
+          <p className="mt-3 text-muted-foreground">
             Nuestra misión es transformar la agricultura en un sector más tecnológico, rentable y sostenible, reduciendo riesgos y mejorando la calidad de los alimentos.
             Visualizamos un futuro con robots cooperativos ACKER inspeccionando cultivos, aplicando tratamientos de precisión y realizando tareas repetitivas sin impacto ambiental.
           </p>
@@ -182,25 +183,24 @@ function Allies() {
   return (
     <section id="aliados" className="mx-auto max-w-7xl px-6 py-14">
       <header className="max-w-3xl">
-        <h3 className="text-2xl md:text-3xl font-bold">🌎 Nuestros Aliados</h3>
-        <p className="mt-2 text-slate-300">
+        <h3 className="text-2xl md:text-3xl font-bold text-primary">🌎 Nuestros Aliados</h3>
+        <p className="mt-2 text-muted-foreground">
           Colaboramos con universidades, productores y centros de investigación para desarrollar herramientas y metodologías de automatización agrícola.
           Presentes en proyectos de innovación, agricultura sostenible y formación académica en robótica aplicada.
         </p>
       </header>
 
-      <div className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-6">
-        <div className="text-slate-300">
-          <div className="font-semibold">Universidades Asociadas</div>
+      <div className="mt-6 rounded-2xl border border-border bg-card p-6">
+        <div className="text-muted-foreground">
+          <div className="font-semibold text-primary">Universidades Asociadas</div>
           <p className="mt-2">
             El proyecto ACKER colabora con instituciones en México y América Latina, integrando líneas de investigación en visión artificial, IA, robótica móvil y agricultura de precisión.
           </p>
         </div>
-        {/* Grid de logos opcional */}
+
         <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-4 opacity-80">
-          {/* Reemplaza /logos/*.svg por tus archivos */}
           {["/logos/u1.svg","/logos/u2.svg","/logos/u3.svg","/logos/u4.svg","/logos/u5.svg","/logos/u6.svg"].map((src, i) => (
-            <div key={i} className="h-12 rounded-xl border border-white/10 bg-white/5 grid place-items-center">
+            <div key={i} className="h-12 rounded-xl border border-border bg-card grid place-items-center">
               <img src={src} alt={`logo-${i}`} className="max-h-8 object-contain" />
             </div>
           ))}
@@ -213,14 +213,14 @@ function Allies() {
 function TeamTeaser() {
   return (
     <section id="equipo" className="mx-auto max-w-6xl px-6 py-14">
-      <div className="rounded-2xl border border-white/10 bg-white/5 p-8">
-        <h3 className="text-2xl md:text-3xl font-bold">👨‍🔬 El Equipo ACKER</h3>
-        <p className="mt-3 text-slate-300">
+      <div className="rounded-2xl border border-border bg-card p-8">
+        <h3 className="text-2xl md:text-3xl font-bold text-primary">👨‍🔬 El Equipo ACKER</h3>
+        <p className="mt-3 text-muted-foreground">
           Equipo multidisciplinario de investigadores, ingenieros y tecnólogos que integran ciencia, ingeniería y sostenibilidad. Queremos llevar la
           inteligencia robótica al campo — del laboratorio a la cosecha.
         </p>
         <div className="mt-5">
-          <Link href="/about#equipo" className="inline-flex items-center px-4 py-2 rounded-xl border border-white/20 hover:bg-white/10">
+          <Link href="/about#equipo" className="inline-flex items-center px-4 py-2 rounded-xl border border-border text-primary hover:bg-secondary/20">
             Más →
           </Link>
         </div>
@@ -231,7 +231,7 @@ function TeamTeaser() {
 
 export default function LandingPage() {
   return (
-    <main className="min-h-screen flex flex-col bg-gradient-to-b from-slate-900 via-slate-950 to-black text-white">
+    <main className="min-h-screen flex flex-col bg-background text-foreground">
       <StickySubnav
         items={[
           { id: "environments", label: "Plataformas" },
@@ -246,16 +246,11 @@ export default function LandingPage() {
         ]}
       />
 
-      {/* Tabs Base / Pequeña escala (encima del robot) */}
       <RoverVariantsTabs />
 
-      {/* Presentación (overview) */}
       <IntroAcker />
-
-      {/* Inteligencia de cultivo (3 tarjetas) */}
       <CropIntelligence />
 
-      {/* Videos: overlap animado (izq y der) */}
       <section id="videos" className="scroll-mt-24">
         <FeatureOverlapLocalVideo
           id="video-1"
@@ -270,7 +265,6 @@ export default function LandingPage() {
           radius={28}
           aspect="16 / 9"
           showFullscreenButton
-          // (default) align = "video-left"
         />
 
         <FeatureOverlapLocalVideo
@@ -291,23 +285,12 @@ export default function LandingPage() {
         />
       </section>
 
-      {/* Valores / pilares */}
       <ValuePillars />
-
-      {/* Adaptabilidad (split con CTA) */}
       <Adaptability />
-
-      {/* Desafíos críticos + Colaboración */}
       <ChallengesAndCollab />
-
-      {/* Aliados / Universidades */}
       <Allies />
-
-      {/* Team teaser */}
       <TeamTeaser />
 
-
-      {/* Cierre CTA y Footer */}
       <CTA />
       <Footer />
     </main>
