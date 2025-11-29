@@ -45,7 +45,7 @@ export type SegmentResponse = {
 const PROXY_BASE = "/api/proxy";
 const BACKEND_ORIGIN =
   (process.env.NEXT_PUBLIC_BACKEND_ORIGIN?.replace(/\/+$/, "") ||
-    "http://localhost:5051") as string;
+    "http://157.230.134.235:5051") as string;
 export function toAbs(url?: string | null): string | undefined {
   if (!url) return undefined;
 
