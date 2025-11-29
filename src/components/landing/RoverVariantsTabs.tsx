@@ -80,7 +80,7 @@ export default function RoverVariantsTabs() {
               </>
             }
             subtitleBadges={["Base", "Modular", "Autónomo"]}
-            imageSrc="/rover-chassis.png"
+            imageSrc="/base.png"
             imageAlt="ACKER Base"
           />
         ) : (
@@ -94,7 +94,7 @@ export default function RoverVariantsTabs() {
               </>
             }
             subtitleBadges={["Pequeña escala", "Túneles estrechos", "Ligero"]}
-            imageSrc="/rover-compact.png"
+            imageSrc="/pequeño.png"
             imageAlt="ACKER Pequeña escala"
             hotspots={SMALL_HOTSPOTS}
           />

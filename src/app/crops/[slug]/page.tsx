@@ -17,9 +17,16 @@ export default function CropPage({ params }: { params: { slug: CropSlug } }) {
           <h1 className="mt-3 text-4xl md:text-5xl font-extrabold tracking-tight">{data.name}</h1>
           <p className="mt-4 text-slate-300 max-w-3xl">{data.summary}</p>
 
-          <div className="mt-6 card overflow-hidden">
-            <div className="aspect-[16/7] bg-gradient-to-b from-white/10 to-white/[0.02]" />
-          </div>
+<div className="mt-6 card overflow-hidden">
+  <div className="aspect-[16/7] relative">
+    <img
+      src={data.img}
+      alt={data.name}
+      className="w-full h-full object-cover"
+    />
+  </div>
+</div>
+
         </div>
       </section>
 

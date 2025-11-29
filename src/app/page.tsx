@@ -36,19 +36,19 @@ function CropIntelligence() {
       title: "ACKER para Lechuga",
       body:
         "Navega entre hileras de forma autónoma, monitoreando el crecimiento y la densidad del follaje. Detecta estrés hídrico o deficiencias nutricionales, ayudando a decisiones más precisas.",
-      img: "/home/lettuce.jpg",
+      img: "/lechuga.png",
     },
     {
       title: "ACKER para Maíz",
       body:
         "Con visión estereoscópica y aprendizaje por refuerzo difuso, sigue las hileras con precisión incluso con sombra, maleza o terreno irregular. Recolecta datos fenotípicos a gran escala.",
-      img: "/home/corn.jpg",
+      img: "/maiz.png",
     },
     {
       title: "ACKER para Col y Brásicas",
       body:
         "Usando segmentación y estimación de pose, identifica cada planta y analiza su desarrollo para conteo automatizado, monitoreo de salud y planificación de cosecha.",
-      img: "/home/brassica.jpg",
+      img: "/col.png",
     },
   ];
 
@@ -245,8 +245,21 @@ export default function LandingPage() {
           { id: "equipo", label: "Equipo" },
         ]}
       />
+<section className="relative">
+  <div
+    className="
+      absolute inset-0
+      bg-[url('/home/acker-bg.jpg')]
+      bg-cover bg-center bg-no-repeat bg-fixed
+    "
+  />
 
-      <RoverVariantsTabs />
+  <div className="absolute inset-0 bg-black/50" />
+
+  <div className="relative">
+    <RoverVariantsTabs />
+  </div>
+</section>
 
       <IntroAcker />
       <CropIntelligence />

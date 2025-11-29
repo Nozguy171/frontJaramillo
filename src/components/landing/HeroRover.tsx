@@ -79,9 +79,6 @@ export default function HeroRover({
         {/* imagen + hotspots */}
         <div className="relative">
           <HotspotImage src={imageSrc} alt={imageAlt} aspect="4/3" hotspots={hotspots} />
-          <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-sm text-white text-xs px-3 py-1 rounded-full border border-white/10 shadow-sm pointer-events-none">
-            YOLO v8 • Powered by AI
-          </div>
         </div>
       </div>
     </section>

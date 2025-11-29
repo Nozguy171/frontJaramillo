@@ -39,7 +39,14 @@ export default function Crops() {
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {entries.map(([slug, c]) => (
               <Link key={slug} href={`/crops/${slug}`} className="group card overflow-hidden">
-                <div className="aspect-[4/3] bg-gradient-to-b from-white/10 to-white/[0.02]" />
+<div className="aspect-[4/3] overflow-hidden">
+  <img
+    src={c.img}
+    alt={c.name}
+    className="w-full h-full object-cover group-hover:scale-105 transition"
+  />
+</div>
+
                 <div className="p-4">
                   <h3 className="font-semibold group-hover:underline">{c.name}</h3>
                   <p className="text-sm text-slate-300 mt-1">{c.summary}</p>
