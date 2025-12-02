@@ -130,7 +130,7 @@ export default function FAQsSection() {
           {faqs.map((f) => (
             <details
               key={f.q}
-              className="group rounded-2xl border border-white/10 bg-white/[0.03] p-4 shadow-[0_10px_30px_rgba(0,0,0,0.25)] open:shadow-[0_16px_40px_rgba(0,0,0,0.35)] transition-shadow"
+              className="group rounded-2xl border border-white/10 bg-black/[0.3] p-4 shadow-[0_10px_30px_rgba(0,0,0,0.25)] open:shadow-[0_16px_40px_rgba(0,0,0,0.35)] transition-shadow"
             >
               <summary className="flex items-center justify-between cursor-pointer select-none font-semibold text-white">
                 <span className="pr-6">{f.q}</span>

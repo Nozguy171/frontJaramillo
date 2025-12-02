@@ -6,8 +6,18 @@ export default function Crops() {
 
   return (
     <div>
-      <section className="px-6 pt-10 pb-6">
-        <div className="mx-auto max-w-7xl">
+    <section className="relative">
+  <div
+    className="
+      absolute inset-0
+      bg-[url('/fondo2.jpeg')]
+      bg-cover bg-center bg-no-repeat bg-fixed
+    "
+  />
+    <div className="absolute inset-0 bg-black/50" />
+      <section className="px-6 pt-10 pb-6 relative">
+
+        <div className="mx-auto max-w-7xl relative">
           <p className="text-emerald-300/90 font-semibold">🌾 Presentamos a ACKER</p>
           <h1 className="mt-2 text-4xl md:text-5xl font-extrabold tracking-tight">
             <span className="bg-gradient-to-r from-emerald-400 to-blue-400 bg-clip-text text-transparent">
@@ -20,9 +30,10 @@ export default function Crops() {
             de monitoreo, mapeo y asistencia agrícola de forma sostenible, eficiente y segura.
           </p>
         </div>
+        
       </section>
 
-      <section className="px-6 py-10">
+      <section className="px-6 py-10 relative" >
         <div className="mx-auto max-w-7xl">
           <h2 className="text-2xl md:text-3xl font-bold">🌱 Inteligencia de Cultivo</h2>
           <p className="mt-3 text-slate-300 max-w-3xl">
@@ -32,7 +43,7 @@ export default function Crops() {
           </p>
         </div>
       </section>
-
+</section>
       <section className="px-6 pb-14">
         <div className="mx-auto max-w-7xl">
           <h2 className="text-2xl md:text-3xl font-bold mb-6">Cultivos</h2>

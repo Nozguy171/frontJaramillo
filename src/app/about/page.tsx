@@ -8,10 +8,6 @@ const IMG_H = 800;         // alto fijo imagen
 const CARD_OFFSET_X = -100; // distancia de la card al borde derecho
 const CARD_OFFSET_Y = 124;  // distancia de la card al borde inferior
 
-// Card principal (fundador + rol + cita)
-const CARD_TITLE = "Pablo Jaramillo — Fundador y Director General de ACKER Robotics";
-const CARD_BODY =
-  "“Creo profundamente que la robótica puede marcar una diferencia enorme y positiva en la vida de los agricultores. La tecnología está permitiendo que un número creciente de tareas del campo sean asumidas por robots inteligentes, liberando tiempo y recursos para que las personas se enfoquen en las labores que realmente requieren su experiencia y sensibilidad humana. Los resultados ya lo demuestran: nuestros sistemas están ayudando a reducir costos, optimizar el uso de recursos y aumentar la productividad del cultivo. Y esto es solo el comienzo de lo que veremos en los próximos años, una nueva era donde la inteligencia robótica y la agricultura trabajarán lado a lado por un futuro más sostenible y humano.”";
 
 
 export default function AboutPage() {
@@ -34,35 +30,18 @@ export default function AboutPage() {
           style={{ width: IMG_W, height: IMG_H, overflow: "visible" }}
         >
           {/* Imagen */}
-          <div className="relative w-full h-full rounded-3xl overflow-hidden shadow-[0_30px_80px_rgba(0,0,0,.45)]">
-            <Image
-              src="/acker-founder.jpg" // ⬅️ tu imagen
-              alt="Pablo Jaramillo"
-              fill
-              priority
-              draggable={false}
-              className="object-cover object-center select-none"
-            />
-          </div>
+<div className="relative w-full h-full rounded-3xl overflow-hidden shadow-[0_30px_80px_rgba(0,0,0,.45)]">
+  <video
+    src="/videos/vid4.mp4"  // ⬅️ pon aquí tu video
+    autoPlay
+    loop
+    muted
+    playsInline
+    className="absolute inset-0 w-full h-full object-cover object-center"
+  />
+</div>
 
-          {/* Card superpuesta */}
-          <div
-            className="hidden md:block absolute z-10 max-w-[min(560px,90vw)] rounded-2xl bg-white text-slate-900 shadow-2xl p-6"
-            style={{ right: CARD_OFFSET_X, bottom: CARD_OFFSET_Y }}
-          >
-            <h2 className="text-2xl md:text-3xl font-extrabold leading-tight">
-              {CARD_TITLE}
-            </h2>
-            <p className="mt-3 text-slate-700 leading-relaxed">{CARD_BODY}</p>
-          </div>
-        </div>
 
-        {/* Mobile: card debajo */}
-        <div className="md:hidden mt-5">
-          <div className="rounded-2xl bg-white text-slate-900 shadow-2xl p-6">
-            <h2 className="text-2xl font-extrabold leading-tight">{CARD_TITLE}</h2>
-            <p className="mt-3 text-slate-700 leading-relaxed">{CARD_BODY}</p>
-          </div>
         </div>
 
         <div className="h-16" />
@@ -74,9 +53,9 @@ export default function AboutPage() {
       <section className="px-6 py-14">
         <div className="mx-auto max-w-6xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {[
-            { src: "/about/triptych-1.jpg", alt: "Fotografía 1" },
-            { src: "/about/triptych-2.jpg", alt: "Fotografía 2" },
-            { src: "/about/triptych-3.jpg", alt: "Fotografía 3" },
+            { src: "/about/f1.jpeg", alt: "Fotografía 1" },
+            { src: "/about/f2.jpeg", alt: "Fotografía 2" },
+            { src: "/about/f3.jpeg", alt: "Fotografía 3" },
           ].map((ph) => (
             <div
               key={ph.src}
@@ -94,8 +73,14 @@ export default function AboutPage() {
       <section className="px-6 py-16">
         <div className="mx-auto max-w-6xl grid md:grid-cols-2 gap-12 items-center">
           <div className="relative aspect-[4/3] rounded-3xl overflow-hidden bg-white shadow ring-1 ring-black/5">
-            <Image src="/about/split-desafios.jpg" alt="Solucionando desafíos críticos" fill className="object-cover" />
-          </div>
+  <video
+    src="/videos/vid5.mp4"  // ⬅️ pon aquí tu video
+    autoPlay
+    loop
+    muted
+    playsInline
+    className="absolute inset-0 w-full h-full object-cover object-center"
+  />          </div>
           <div>
             <h2 className="text-4xl font-extrabold tracking-tight text-white">
               Solucionando desafíos críticos
@@ -127,7 +112,7 @@ export default function AboutPage() {
             </p>
           </div>
           <div className="relative aspect-[4/3] rounded-3xl overflow-hidden bg-white shadow ring-1 ring-black/5">
-            <Image src="/about/split-alianzas.jpg" alt="Alianzas" fill className="object-cover" />
+            <Image src="/equipo.jpeg" alt="Alianzas" fill className="object-cover" />
           </div>
         </div>
       </section>
@@ -147,8 +132,8 @@ export default function AboutPage() {
 
           {/* Logos (placeholders) */}
           <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 gap-8 justify-items-center opacity-80">
-            {["/about/logo-1.svg", "/about/logo-2.svg", "/about/logo-3.svg"].map((logo) => (
-              <div key={logo} className="h-14 relative w-32">
+            {["/logosuni/fim.jpeg", "/logosuni/mydci.jpeg", "/logosuni/uabc.webp"].map((logo) => (
+              <div key={logo} className="h-20 relative w-32">
                 <Image src={logo} alt="Logo universidad asociada" fill className="object-contain" />
               </div>
             ))}
@@ -174,7 +159,7 @@ export default function AboutPage() {
             </p>
           </div>
           <div className="relative aspect-[4/3] rounded-3xl overflow-hidden bg-white shadow ring-1 ring-black/5">
-            <Image src="/about/team.jpg" alt="Equipo ACKER" fill className="object-cover" />
+            <Image src="/team.jpeg" alt="Equipo ACKER" fill className="object-cover" />
           </div>
         </div>
       </section>

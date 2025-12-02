@@ -124,7 +124,7 @@ function Adaptability() {
     <section id="adaptabilidad" className="mx-auto max-w-7xl px-6 pt-8 pb-16">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
         <div className="lg:col-span-7 rounded-2xl overflow-hidden border border-border shadow-2xl">
-          <img src="/home/adapt.jpg" alt="ACKER en invernadero y campo" className="w-full h-auto object-cover" />
+          <img src="/planos.jpg" alt="ACKER en invernadero y campo" className="w-full h-auto object-cover" />
         </div>
         <aside className="lg:col-span-5">
           <div className="bg-card text-foreground rounded-2xl border border-border shadow-[0_20px_60px_rgba(0,0,0,.35)] p-6 md:p-7">
@@ -198,10 +198,10 @@ function Allies() {
           </p>
         </div>
 
-        <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-4 opacity-80">
-          {["/logos/u1.svg","/logos/u2.svg","/logos/u3.svg","/logos/u4.svg","/logos/u5.svg","/logos/u6.svg"].map((src, i) => (
-            <div key={i} className="h-12 rounded-xl border border-border bg-card grid place-items-center">
-              <img src={src} alt={`logo-${i}`} className="max-h-8 object-contain" />
+        <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 md:grid-cols-3 gap-4 opacity-80">
+          {["/logosuni/fim.jpeg","/logosuni/mydci.jpeg","/logosuni/uabc.webp"].map((src, i) => (
+            <div key={i} className="h-20 rounded-xl border border-border bg-card grid place-items-center">
+              <img src={src} alt={`logo-${i}`} className="max-h-16 object-contain" />
             </div>
           ))}
         </div>
@@ -267,10 +267,10 @@ export default function LandingPage() {
       <section id="videos" className="scroll-mt-24">
         <FeatureOverlapLocalVideo
           id="video-1"
-          previewSrc="/feature-field.jpg"
-          title="Monitoreo autónomo con mapas fenotípicos"
+          previewSrc="/vid1.jpeg"
+          title="Monitoreo autónomo en simulación"
           body={<>Visión multi-YOLO + sensores ambientales; salud del cultivo sin GNSS.</>}
-          videoSrc="/demo.mp4"
+          videoSrc="/videos/vid1.mp4"
           poster="/feature-field.jpg"
           offsetX={80}
           offsetY={-60}
@@ -284,10 +284,27 @@ export default function LandingPage() {
           id="video-2"
           align="video-right"
           groupShiftX={-80}
-          previewSrc="/feature-greenhouse.jpg"
-          title="Operación precisa en invernaderos y túneles"
-          body={<>Cambio automático de hilera y captura de datos microclimáticos y visuales con optimización en tiempo real.</>}
-          videoSrc="/demo-greenhouse.mp4"
+          previewSrc="/fondo4.jpeg"
+          title="Monitoreo autónomo aplicado"
+          body={<>Integración de sensores con visión artificial en prototipos a pequeña escala.</>}
+          videoSrc="/videos/vid2.mp4"
+          poster="/feature-greenhouse.jpg"
+          offsetX={70}
+          offsetY={-50}
+          hardOverlap={72}
+          radius={28}
+          aspect="16 / 9"
+          showFullscreenButton
+        />
+
+        <FeatureOverlapLocalVideo
+          id="video-3"
+          align="video-left"
+          groupShiftX={-80}
+          previewSrc="/vid3.jpeg"
+          title="Monitoreo en tiempo real a gran escala."
+          body={<>Aplicación de 4 modelos de YOLO en cultivos reales.</>}
+          videoSrc="/videos/vid3.mp4"
           poster="/feature-greenhouse.jpg"
           offsetX={70}
           offsetY={-50}

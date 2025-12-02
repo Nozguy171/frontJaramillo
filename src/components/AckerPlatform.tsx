@@ -5,7 +5,8 @@ import React from "react";
 
 export default function AckerPlatform() {
   return (
-    <section id="acker-platform" className="px-6 py-16 text-white">
+    <section id="acker-platform" className="px-6 py-16 text-white bg-black/60">
+
       <div className="mx-auto max-w-6xl space-y-16">
 
         {/* HERO */}
@@ -22,15 +23,16 @@ export default function AckerPlatform() {
               Integra visión artificial, sensores ambientales y control inteligente para realizar tareas de monitoreo, navegación y análisis de cultivos con precisión y sostenibilidad.
             </p>
           </div>
-          <div className="relative aspect-[4/3] rounded-3xl overflow-hidden bg-white shadow-[0_25px_80px_rgba(0,0,0,0.12)] ring-1 ring-white/5">
-            <Image
-              src="/platform/hero.jpg"
-              alt="Plataforma ACKER en operación"
-              fill
-              className="object-cover"
-              priority
-            />
-          </div>
+<div className="relative left-44 w-[340px] aspect-[3/4] bg-cover rounded-3xl overflow-hidden bg-white shadow-[0_25px_80px_rgba(0,0,0,0.12)] ring-1 ring-white/5">
+  <Image
+    src="/logo.png"
+    alt="Plataforma ACKER en operación"
+    fill
+    className="object-cover"
+    priority
+  />
+</div>
+
         </header>
 
         {/* ENTORNOS */}
@@ -43,7 +45,7 @@ export default function AckerPlatform() {
             {/* Invernaderos */}
             <article className="rounded-3xl bg-white/[0.03] ring-1 ring-white/10 p-6 shadow-[0_10px_30px_rgba(0,0,0,0.25)]">
               <div className="relative mb-4 aspect-[4/3] rounded-2xl overflow-hidden bg-white/5">
-                <Image src="/platform/invernaderos.jpg" alt="Invernaderos" fill className="object-cover" />
+                <Image src="/platform/invernadero.jpeg" alt="Invernaderos" fill className="object-cover" />
               </div>
               <h3 className="text-xl font-bold">Invernaderos</h3>
               <p className="mt-2 text-slate-300">
@@ -56,7 +58,7 @@ export default function AckerPlatform() {
             {/* Campo Abierto */}
             <article className="rounded-3xl bg-white/[0.03] ring-1 ring-white/10 p-6 shadow-[0_10px_30px_rgba(0,0,0,0.25)]">
               <div className="relative mb-4 aspect-[4/3] rounded-2xl overflow-hidden bg-white/5">
-                <Image src="/platform/campo-abierto.jpg" alt="Campo Abierto" fill className="object-cover" />
+                <Image src="/platform/abierto.jpeg" alt="Campo Abierto" fill className="object-cover" />
               </div>
               <h3 className="text-xl font-bold">Campo Abierto</h3>
               <p className="mt-2 text-slate-300">
@@ -69,7 +71,7 @@ export default function AckerPlatform() {
             {/* Viñedos y Hortalizas */}
             <article className="rounded-3xl bg-white/[0.03] ring-1 ring-white/10 p-6 shadow-[0_10px_30px_rgba(0,0,0,0.25)]">
               <div className="relative mb-4 aspect-[4/3] rounded-2xl overflow-hidden bg-white/5">
-                <Image src="/platform/vinedos-hortalizas.jpg" alt="Viñedos y Hortalizas" fill className="object-cover" />
+                <Image src="/platform/hortaliza.jpeg" alt="Viñedos y Hortalizas" fill className="object-cover" />
               </div>
               <h3 className="text-xl font-bold">Viñedos y Hortalizas</h3>
               <p className="mt-2 text-slate-300">
@@ -82,8 +84,8 @@ export default function AckerPlatform() {
 
         {/* UN SOLO DISEÑO, INFINITAS APLICACIONES */}
         <section id="aplicaciones" className="grid md:grid-cols-2 gap-10 items-center">
-          <div className="relative aspect-[4/3] rounded-3xl overflow-hidden bg-white/5 ring-1 ring-white/10 shadow-[0_25px_80px_rgba(0,0,0,0.12)]">
-            <Image src="/platform/aplicaciones.jpg" alt="Aplicaciones" fill className="object-cover" />
+          <div className="relative aspect-[5/3] rounded-3xl overflow-hidden bg-white/5 ring-1 ring-white/10 shadow-[0_25px_80px_rgba(0,0,0,0.12)]">
+            <Image src="/robot2.png" alt="Aplicaciones" fill className="object-cover" />
           </div>
           <div>
             <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight">
@@ -123,7 +125,7 @@ export default function AckerPlatform() {
             </div>
           </div>
           <div className="relative aspect-[4/3] rounded-3xl overflow-hidden bg-white/5 ring-1 ring-white/10 shadow-[0_25px_80px_rgba(0,0,0,0.12)]">
-            <Image src="/platform/modular.jpg" alt="Construcción modular" fill className="object-cover" />
+            <Image src="/about/f4.jpg" alt="Construcción modular" fill className="object-cover" />
           </div>
         </section>
 
@@ -169,8 +171,14 @@ export default function AckerPlatform() {
         {/* FLOTA AUTÓNOMA */}
         <section id="flota" className="grid md:grid-cols-2 gap-10 items-center">
           <div className="relative aspect-[4/3] rounded-3xl overflow-hidden bg-white/5 ring-1 ring-white/10 shadow-[0_25px_80px_rgba(0,0,0,0.12)]">
-            <Image src="/platform/flota.jpg" alt="Flota autónoma ACKER" fill className="object-cover" />
-          </div>
+  <video
+    src="/videos/vid4.mp4"  // ⬅️ pon aquí tu video
+    autoPlay
+    loop
+    muted
+    playsInline
+    className="absolute inset-0 w-full h-full object-cover object-center"
+  />          </div>
           <div>
             <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight">
               Flota Autónoma ACKER

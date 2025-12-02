@@ -80,7 +80,7 @@ export default function RoverVariantsTabs() {
               </>
             }
             subtitleBadges={["Base", "Modular", "Autónomo"]}
-            imageSrc="/base.png"
+            imageSrc="/bot.png"
             imageAlt="ACKER Base"
           />
         ) : (

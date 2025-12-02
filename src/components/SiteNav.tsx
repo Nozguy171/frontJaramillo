@@ -394,7 +394,6 @@ export default function SiteNav() {
           </div>
 
           <Item href="/platform">Plataforma</Item>
-          <Item href="/news">Noticias</Item>
           <Item href="/faqs">FAQs</Item>
           <Item href="/contact">Contacto</Item>
 
